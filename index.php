@@ -2,6 +2,7 @@
 // Arquivo: index.php
 session_start();
 require_once 'auth_functions.php';
+require_once 'Estatisticas.class.php';
 
 // Protege a página: se não estiver logado, redireciona para o login.
 proteger_pagina(); 
@@ -9,6 +10,8 @@ proteger_pagina();
 // Dados do usuário logado
 $nome_func = $_SESSION['nome'];
 $funcao = $_SESSION['funcao'];
+
+$stats = (new Estatisticas())->getVisaoGeral();
 ?>
 
 <!DOCTYPE html>
@@ -38,8 +41,15 @@ $funcao = $_SESSION['funcao'];
     </ul>
 
     <div id="visao_geral">
-        <h3>Visão Geral da Academia</h3>
-        <p>A ser implementado...</p>
+<h3>Visão Geral da Academia</h3>
+    
+    <p>Total de Alunos: <strong><?php echo $stats['quant_alunos']; ?></strong></p>
+    <p>Total de Produtos em Estoque: <strong><?php echo $stats['quant_produtos_estoque']; ?></strong></p>
+    <p>Total de Funcionários: <strong><?php echo $stats['quant_func']; ?></strong></p>
+    
+    <?php if ($stats['plano_mais_caro']): ?>
+        <p>Plano Mais Caro: <strong><?php echo htmlspecialchars($stats['plano_mais_caro']['plano_pag']); ?></strong> (R$ <?php echo number_format($stats['plano_mais_caro']['valor'], 2, ',', '.'); ?>)</p>
+    <?php endif; ?>
     </div>
 </body>
 </html>
