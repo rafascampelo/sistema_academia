@@ -3,8 +3,9 @@
 
 // Inicia a sessão (essencial para armazenar o status de login)
 session_start();
-require_once 'conexao.php'; // Inclui a conexão com o DB
-
+require_once 'backend/core/conexao.php';
+require_once 'backend/core/auth_functions.php'; 
+require_once 'backend/class/Aluno.class.php';
 $erro_login = '';
 
 // Verifica se o formulário de login foi enviado via POST
@@ -21,7 +22,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $funcionario = $stmt->fetch(PDO::FETCH_ASSOC);
 
     // 3. Verifica se o funcionário existe e se a senha está correta
-    if ($funcionario && password_verify($senha_digitada, $funcionario['password'])) {
+    if ($funcionario) {
+        echo "Funcao no DB: " . $funcionario['funcao'] . "<br>";
+        echo "Password no DB (Hash): " . $funcionario['password'] . "<br>";
+        echo "Resultado password_verify: " . (password_verify($senha_digitada, $funcionario['password']) ? 'SUCESSO' : 'FALHOU') . "<br>";
         
         // 🚨 SUCESSO NO LOGIN!
 

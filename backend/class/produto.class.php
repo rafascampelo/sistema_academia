@@ -1,6 +1,6 @@
 <?php
 // Arquivo: Produto.class.php
-require_once 'conexao.php';
+require_once __DIR__ . '/../core/conexao.php';
 
 // Classe de domínio (Produto)
 class Produto {

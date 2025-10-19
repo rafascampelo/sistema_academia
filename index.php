@@ -1,9 +1,9 @@
 <?php
 // Arquivo: index.php
 session_start();
-require_once 'auth_functions.php';
-require_once 'Estatisticas.class.php';
-
+require_once 'backend/core/conexao.php';
+require_once 'backend/core/auth_functions.php'; 
+require_once 'backend/class/Estatisticas.class.php';
 // Protege a página: se não estiver logado, redireciona para o login.
 proteger_pagina(); 
 

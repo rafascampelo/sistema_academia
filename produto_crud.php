@@ -1,9 +1,8 @@
 <?php
 // Arquivo: produto_crud.php
 session_start();
-require_once 'auth_functions.php';
-require_once 'Produto.class.php';
-
+require_once 'backend/core/auth_functions.php';
+require_once 'backend/class/Produto.class.php'; 
 // 1. AUTORIZAÇÃO: Só permite acesso se for ADM!
 if (!is_adm()) {
     header('Location: index.php?error=acesso_negado');

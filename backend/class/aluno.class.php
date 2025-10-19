@@ -1,7 +1,7 @@
 <?php
 // Arquivo: Aluno.class.php
 // Inclui a conexão para que as classes possam usá-la
-require_once 'conexao.php';
+require_once __DIR__ . '/../core/conexao.php';
 
 class Aluno {
     // Propriedades privadas

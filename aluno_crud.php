@@ -1,9 +1,10 @@
 <?php
 // Arquivo: aluno_crud.php
 session_start();
-require_once 'auth_functions.php';
-require_once 'Aluno.class.php';
-
+require_once 'backend/core/conexao.php';
+require_once 'backend/core/auth_functions.php'; 
+// E os CRUDS (se for o caso)
+require_once 'backend/class/Aluno.class.php';
 // 1. AUTORIZAÇÃO: Só permite acesso se for ADM!
 if (!is_adm()) {
     // Se não for ADM, redireciona ou mostra erro 403

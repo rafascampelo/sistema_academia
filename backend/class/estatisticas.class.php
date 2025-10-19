@@ -1,6 +1,6 @@
 <?php
 // Arquivo: Estatisticas.class.php
-require_once 'conexao.php';
+require_once __DIR__ . '/../core/conexao.php';
 
 class Estatisticas {
     private $pdo;

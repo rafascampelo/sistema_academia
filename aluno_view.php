@@ -1,9 +1,11 @@
 <?php
 // Arquivo: aluno_view.php (Acesso para Supervisor e ADM)
 session_start();
-require_once 'auth_functions.php';
-require_once 'Aluno.class.php';
 
+require_once 'backend/core/conexao.php';
+require_once 'backend/core/auth_functions.php'; 
+
+require_once 'backend/class/Aluno.class.php';
 // 1. AUTORIZAÇÃO: Permite acesso se for ADM OU Supervisor!
 if (!is_supervisor()) {
     // Se não for nenhum dos dois, nega o acesso.
