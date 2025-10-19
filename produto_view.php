@@ -13,7 +13,7 @@ if (!is_supervisor()) {
 
 // 2. Cria a instância da classe CRUD
 $crud = new ProdutoCRUD();
-$produtos = $crud->listarTodos(); // Chamada ao DB
+$produtos = $crud->listarTodosComRelacoes(); // Chamada ao DB
 
 ?>
 <!DOCTYPE html>
@@ -32,18 +32,24 @@ $produtos = $crud->listarTodos(); // Chamada ao DB
         <table border="1">
             <thead>
                 <tr>
-                    <th>Código</th>
-                    <th>Nome</th>
-                    <th>Preço</th>
+                    <th>Cód. Prod</th>
+                <th>Nome Prod.</th>
+                <th>Estoque</th>
+                <th>Fornecedor</th>
+                <th>Preço Compra</th>
+                <th>Validade</th>
                 </tr>
             </thead>
             <tbody>
                 <?php foreach ($produtos as $produto): ?>
-                <tr>
-                    <td><?php echo htmlspecialchars($produto['cod_prod']); ?></td>
-                    <td><?php echo htmlspecialchars($produto['nome_prod']); ?></td>
-                    <td>R$ <?php echo number_format($produto['preco'], 2, ',', '.'); ?></td>
-                </tr>
+            <tr>
+                    <td><?php echo $produto['cod_prod']; ?></td>
+                <td><?php echo htmlspecialchars($produto['nome_prod']); ?></td>
+                <td><?php echo $produto['quant_estoque'] ?? 0; ?></td>
+                <td><?php echo htmlspecialchars($produto['nome_forn'] ?? 'N/A'); ?></td>
+                <td>R$ <?php echo number_format($produto['preco'] ?? 0, 2, ',', '.'); ?></td>
+                <td><?php echo $produto['valid'] ?? 'N/A'; ?></td>
+            </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
