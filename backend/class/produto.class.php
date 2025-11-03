@@ -16,16 +16,17 @@ class ProdutoCRUD {
     // LISTAGEM PRINCIPAL (Faz o JOIN de todas as tabelas)
     public function listarTodosComRelacoes() {
         $sql = "
-            SELECT 
-                p.cod_prod, p.nome_prod,
-                e.quantidade AS quant_estoque, 
-                f.cod_forn, fo.nome_forn, 
-                f.preco, f.valid, f.data_comp
-            FROM produto p
-            LEFT JOIN estoque e ON p.cod_prod = e.cod_prod
-            LEFT JOIN fornecimento f ON p.cod_prod = f.cod_prod
-            LEFT JOIN fornecedor fo ON f.cod_forn = fo.cod_forn
-            ORDER BY p.cod_prod, f.data_comp DESC
+            -- LISTAGEM PRINCIPAL (Faz o JOIN de todas as tabelas)
+SELECT 
+    p.cod_prod, p.nome_prod,
+    e.quantidade AS quant_estoque, 
+    f.cod_forn, fo.nome_forn, 
+    f.preco, f.valid, f.data_comp
+FROM produto p
+LEFT JOIN estoque e ON p.cod_prod = e.cod_prod
+LEFT JOIN fornecimento f ON p.cod_prod = f.cod_prod -- AQUI está o problema da duplicação
+LEFT JOIN fornecedor fo ON f.cod_forn = fo.cod_forn
+ORDER BY p.cod_prod, f.data_comp DESC
         ";
         $stmt = $this->pdo->query($sql);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -102,18 +103,24 @@ class ProdutoCRUD {
     }
     
     // ALTERAÇÃO (Update) - Altera Produto e Estoque, e insere NOVO Fornecimento
-   public function atualizar($cod_prod, array $dados) {
+// ... (Método ProdutoCRUD)
+
+// ALTERAÇÃO (Update) - Altera Produto e Estoque, e ATUALIZA o Fornecimento mais recente
+// Arquivo: backend/class/Produto.class.php
+
+// ALTERAÇÃO (Update) - Altera Produto e Estoque, e ATUALIZA Fornecimento
+public function atualizar($cod_prod, array $dados) {
     try {
         $this->pdo->beginTransaction();
         
-        // 1. Atualizar 'produto' (apenas nome)
+        // 1. Atualizar 'produto' (apenas nome) - OK
         $sql_prod = "UPDATE produto SET nome_prod = :nome_prod WHERE cod_prod = :cod_prod";
         $this->pdo->prepare($sql_prod)->execute([
             'nome_prod' => $dados['nome_prod'], 
             'cod_prod' => $cod_prod
         ]);
 
-        // 2. Atualizar 'estoque' (Verifica se já existe e atualiza, ou insere)
+        // 2. Atualizar/Inserir 'estoque' - OK (Mantenha a lógica de upsert)
         $sql_est = "UPDATE estoque SET quantidade = :quantidade WHERE cod_prod = :cod_prod";
         $stmt_est = $this->pdo->prepare($sql_est);
         $stmt_est->execute([
@@ -121,47 +128,62 @@ class ProdutoCRUD {
             'quantidade' => $dados['quantidade'] ?? 0
         ]);
 
-        // Se o produto existia mas o estoque nunca foi inserido, faz a inserção
         if ($stmt_est->rowCount() === 0) {
              $sql_insert_est = "INSERT INTO estoque (cod_prod, quantidade) VALUES (:cod_prod, :quantidade)";
              $this->pdo->prepare($sql_insert_est)->execute([
-                'cod_prod' => $cod_prod, 
-                'quantidade' => $dados['quantidade'] ?? 0
+                 'cod_prod' => $cod_prod, 
+                 'quantidade' => $dados['quantidade'] ?? 0
              ]);
         }
         
-        // 3. INSERIR NOVO REGISTRO DE FORNECIMENTO (Opcional, se todos os campos vierem preenchidos)
-        // A falha provavelmente está aqui! Devemos garantir que NADA esteja vazio.
-        $pode_inserir_forn = (
+        // 3. ATUALIZAR REGISTRO DE FORNECIMENTO (A SOLUÇÃO)
+        $pode_atualizar_forn = (
             !empty($dados['cod_forn']) && 
-            isset($dados['preco']) && 
-            !empty($dados['valid'])
+            $dados['preco'] >= 0
+            // valid pode ser null, mas se for alterado, deve ser incluído
         );
         
-        if ($pode_inserir_forn) {
-            // Insere um novo registro em fornecimento (a tabela é histórica)
-             $sql_forn = "INSERT INTO fornecimento (cod_prod, cod_forn, preco, valid, data_comp) 
-                          VALUES (:cod_prod, :cod_forn, :preco, :valid, NOW())";
-             $this->pdo->prepare($sql_forn)->execute([
-                 'cod_prod' => $cod_prod,
-                 'cod_forn' => $dados['cod_forn'],
-                 'preco' => $dados['preco'],
-                 'valid' => $dados['valid']
-             ]);
-        }
-        // Se $pode_inserir_forn for FALSE, a transação continua sem tentar o INSERT falho.
+        if ($pode_atualizar_forn) {
+            // Utilizamos UPDATE para modificar o registro existente, usando a chave composta na cláusula WHERE.
+            $sql_forn = "UPDATE fornecimento 
+                         SET preco = :preco, valid = :valid, data_comp = NOW()
+                         WHERE cod_prod = :cod_prod AND cod_forn = :cod_forn";
+            
+            $stmt_forn = $this->pdo->prepare($sql_forn);
+            $stmt_forn->execute([
+                'cod_prod' => $cod_prod,
+                'cod_forn' => $dados['cod_forn'],
+                'preco' => $dados['preco'],
+                'valid' => $dados['valid'] ?? null // Permite enviar null se o campo for opcional
+            ]);
+            
+            // 🚨 Tratamento para o caso de ter mudado o fornecedor (Exigiria DELETE + INSERT, mas é arriscado).
+            // Se o fornecedor foi alterado no formulário, a linha de UPDATE acima não afetará 
+            // nenhuma linha (rowCount() == 0). Neste caso, a ação correta seria um novo INSERT:
+            if ($stmt_forn->rowCount() === 0) {
+                // Se nenhum registro foi atualizado, vamos tentar INSERIR (novo fornecedor)
+                $sql_insert_forn = "INSERT INTO fornecimento (cod_prod, cod_forn, preco, valid, data_comp) 
+                                    VALUES (:cod_prod, :cod_forn, :preco, :valid, NOW())";
+                $this->pdo->prepare($sql_insert_forn)->execute([
+                    'cod_prod' => $cod_prod,
+                    'cod_forn' => $dados['cod_forn'],
+                    'preco' => $dados['preco'],
+                    'valid' => $dados['valid'] ?? null
+                ]);
+            }
 
+        } // Fim do if ($pode_atualizar_forn)
+        
         $this->pdo->commit(); 
         return true;
 
     } catch (Exception $e) {
         $this->pdo->rollBack(); 
-        // 🚨 Se o problema persistir, use o die() TEMPORARIAMENTE para ver a mensagem de erro:
-        // die("Erro de Transação no Update: " . $e->getMessage()); 
+        // 🚨 Mantenha o die() se quiser ver o erro, mas remova-o para produção
+        // die("Erro de Transação no Update Final: " . $e->getMessage()); 
         return false;
     }
 }
-
     // EXCLUSÃO (Delete) - Remove de todas as tabelas relacionadas
     public function excluir($cod_prod) {
         try {

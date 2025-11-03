@@ -27,16 +27,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $mensagem = 'Erro: Nome do Produto e Quantidade em Estoque são obrigatórios.';
     } else {
         
-        // Formata os dados para o método CRUD - REMOVEMOS FORNECEDOR/PREÇO/VALID
+        // 🛠️ Alteração Principal: Montar $dados_crud com TODOS os campos.
         $dados_crud = [
             'nome_prod'  => $dados['nome_prod'],
             'quantidade' => (int)$dados['quantidade'],
-            // Removidas as chaves: 'cod_forn', 'preco', 'valid'
+            // Adicionamos os campos de Fornecimento aqui para que o UPDATE os receba:
+            'cod_forn'   => $dados['cod_forn'] ?? null,
+            'preco'      => floatval($dados['preco'] ?? 0.00),
+            'valid'      => $dados['valid'] ?? null,
         ];
         
         // Ação de Alteração (UPDATE)
         if (isset($dados['cod_prod']) && !empty($dados['cod_prod'])) {
-            if ($crud->atualizar($dados['cod_prod'], $dados_crud)) {
+            // Agora o método 'atualizar' recebe os dados de fornecimento
+            if ($crud->atualizar($dados['cod_prod'], $dados_crud)) { 
                 $mensagem = 'Produto alterado com sucesso!';
             } else {
                 $mensagem = 'Erro ao alterar produto (Verifique os dados).';
