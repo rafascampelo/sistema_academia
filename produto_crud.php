@@ -44,6 +44,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $mensagem = 'Produto alterado com sucesso!';
             } else {
                 $mensagem = 'Erro ao alterar produto (Verifique os dados).';
+                echo '<h3>Dados Enviados que Falharam:</h3>';
+        echo '<pre>'; 
+        var_dump($dados); 
+        echo '</pre>';
+        die();
             }
         } else {
             // Ação de Inclusão (CREATE)

@@ -9,9 +9,6 @@ class ProdutoCRUD {
         $this->pdo = conectar_db();
     }
 
-    // ====================================================================
-    // MÉTODOS DE CONSULTA
-    // ====================================================================
     
     // LISTAGEM PRINCIPAL (Faz o JOIN de todas as tabelas)
     public function listarTodosComRelacoes() {
@@ -24,7 +21,7 @@ SELECT
     f.preco, f.valid, f.data_comp
 FROM produto p
 LEFT JOIN estoque e ON p.cod_prod = e.cod_prod
-LEFT JOIN fornecimento f ON p.cod_prod = f.cod_prod -- AQUI está o problema da duplicação
+LEFT JOIN fornecimento f ON p.cod_prod = f.cod_prod
 LEFT JOIN fornecedor fo ON f.cod_forn = fo.cod_forn
 ORDER BY p.cod_prod, f.data_comp DESC
         ";
@@ -55,10 +52,6 @@ ORDER BY p.cod_prod, f.data_comp DESC
         $stmt->execute(['id' => $cod_prod]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-
-    // ====================================================================
-    // MÉTODOS DE TRANSAÇÃO (CRUD)
-    // ====================================================================
 
     // CRIAÇÃO (Create)
     public function inserir(array $dados) {
@@ -124,18 +117,9 @@ public function atualizar($cod_prod, array $dados) {
         $sql_est = "UPDATE estoque SET quantidade = :quantidade WHERE cod_prod = :cod_prod";
         $stmt_est = $this->pdo->prepare($sql_est);
         $stmt_est->execute([
-            'cod_prod' => $cod_prod, 
-            'quantidade' => $dados['quantidade'] ?? 0
+            'quantidade' => $dados['quantidade'] ?? 0,
+            'cod_prod' => $cod_prod
         ]);
-
-        if ($stmt_est->rowCount() === 0) {
-             $sql_insert_est = "INSERT INTO estoque (cod_prod, quantidade) VALUES (:cod_prod, :quantidade)";
-             $this->pdo->prepare($sql_insert_est)->execute([
-                 'cod_prod' => $cod_prod, 
-                 'quantidade' => $dados['quantidade'] ?? 0
-             ]);
-        }
-        
         // 3. ATUALIZAR REGISTRO DE FORNECIMENTO (A SOLUÇÃO)
         $pode_atualizar_forn = (
             !empty($dados['cod_forn']) && 
@@ -151,28 +135,13 @@ public function atualizar($cod_prod, array $dados) {
             
             $stmt_forn = $this->pdo->prepare($sql_forn);
             $stmt_forn->execute([
-                'cod_prod' => $cod_prod,
-                'cod_forn' => $dados['cod_forn'],
+                
                 'preco' => $dados['preco'],
-                'valid' => $dados['valid'] ?? null // Permite enviar null se o campo for opcional
+    'valid' => $dados['valid'] ?? null, 
+    'cod_prod' => $cod_prod,
+    'cod_forn' => $dados['cod_forn']
             ]);
-            
-            // 🚨 Tratamento para o caso de ter mudado o fornecedor (Exigiria DELETE + INSERT, mas é arriscado).
-            // Se o fornecedor foi alterado no formulário, a linha de UPDATE acima não afetará 
-            // nenhuma linha (rowCount() == 0). Neste caso, a ação correta seria um novo INSERT:
-            if ($stmt_forn->rowCount() === 0) {
-                // Se nenhum registro foi atualizado, vamos tentar INSERIR (novo fornecedor)
-                $sql_insert_forn = "INSERT INTO fornecimento (cod_prod, cod_forn, preco, valid, data_comp) 
-                                    VALUES (:cod_prod, :cod_forn, :preco, :valid, NOW())";
-                $this->pdo->prepare($sql_insert_forn)->execute([
-                    'cod_prod' => $cod_prod,
-                    'cod_forn' => $dados['cod_forn'],
-                    'preco' => $dados['preco'],
-                    'valid' => $dados['valid'] ?? null
-                ]);
-            }
-
-        } // Fim do if ($pode_atualizar_forn)
+            }// Fim do if ($pode_atualizar_forn)
         
         $this->pdo->commit(); 
         return true;
@@ -180,7 +149,7 @@ public function atualizar($cod_prod, array $dados) {
     } catch (Exception $e) {
         $this->pdo->rollBack(); 
         // 🚨 Mantenha o die() se quiser ver o erro, mas remova-o para produção
-        // die("Erro de Transação no Update Final: " . $e->getMessage()); 
+        die("Erro de Transação no Update Final: " . $e->getMessage()); 
         return false;
     }
 }
