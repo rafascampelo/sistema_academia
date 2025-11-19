@@ -36,45 +36,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['funcao'] = $funcionario['funcao']; // <-- Usado para autorização!
 
         // 5. Redireciona para a Tela Principal
-        header('Location: index.php');
+        header("Location: index.php");
         exit();
 
     } else {
         $erro_login = 'Email ou senha inválidos.';
     }
 }
-
-// Se o usuário já estiver logado, redireciona para a tela principal
-if (isset($_SESSION['logado']) && $_SESSION['logado'] === true) {
-    header('Location: index.php');
-    exit();
-}
-?>
+?>  
 
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <title>Login - Academia Fit</title>
-    <link rel="stylesheet" href="css/estilo.css"> 
+    <link rel="stylesheet" href="styles/styleslogin.css"> 
+    <script src="scripts/script.js"></script>
 </head>
 <body>
-    <div class="container">
-        <h1>Acesso de Funcionários</h1>
-
-        <?php if ($erro_login): ?>
+  <div class="overlay"></div>
+  <div class="container" id="login-container">
+    <h2>Login Academia</h2>
+            <?php if ($erro_login): ?>
             <p style="color: red;"><?php echo $erro_login; ?></p>
         <?php endif; ?>
 
-        <form action="login.php" method="POST">
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
-            
-            <label for="password">Senha:</label>
-            <input type="password" id="password" name="password" required>
-            
-            <button type="submit">Entrar</button>
-        </form>
-    </div>
+    <form id="login-form" action="login.php" method="POST">
+      <input type="email" name="email" placeholder="Digite seu e-mail" required>
+      <input type="password" name="password" placeholder="Digite sua senha" required>
+      <button type="submit">Entrar</button>
+    </form>
+  </div>
+
 </body>
 </html>
