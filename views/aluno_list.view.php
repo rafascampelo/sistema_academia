@@ -12,8 +12,8 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles/aluno.css">
-    <script src="scripts/scriptAlunoList.js"></script>
+    <link rel="stylesheet" href="styles/aluno_list.view.css">
+    <script src="scripts/scriptAlunoCrud.js"></script>
     </head>
 <body>
 <div class="container" id="container">
@@ -83,7 +83,7 @@
 </table>
 
 <p style="text-align:center; margin-top:20px;">
-    <a class="button-delete" id="voltar" href="#" style="cursor:pointer;">
+    <a class="button-delete" id="voltar" style="cursor:pointer;">
         Voltar à Tela Inicial
     </a>
 </p>

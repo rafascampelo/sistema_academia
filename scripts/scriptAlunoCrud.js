@@ -2,10 +2,9 @@ window.addEventListener("DOMContentLoaded", () => {
   const container = document.getElementById("container");
   setTimeout(() => container.classList.add("show"), 50);
 
-  const voltar = document.getElementById("voltar");
-  voltar.addEventListener("click", function (e) {
+  document.getElementById("voltar").addEventListener("click", (e) => {
     e.preventDefault();
     container.classList.add("exit");
-    setTimeout(() => (window.location.href = "../index.php"), 600);
+    setTimeout(() => (window.location.href = "./index.php"), 600);
   });
 });

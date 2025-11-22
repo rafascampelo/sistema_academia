@@ -4,7 +4,6 @@ session_start();
 
 require_once '../backend/core/conexao.php';
 require_once '../backend/core/auth_functions.php'; 
-
 require_once '../backend/class/Aluno.class.php';
 // 1. AUTORIZAÇÃO: Permite acesso se for ADM OU Supervisor!
 if (!is_supervisor()) {
@@ -30,8 +29,8 @@ $is_admin = is_adm();
 <head>
     <meta charset="UTF-8">
     <title>Visualização de Alunos (Professor)</title>
-    <link rel="stylesheet" href="../styles/aluno.css"> 
-    <script src="../scripts/scriptAlunoView.js"></script>
+    <link rel="stylesheet" href="../styles/viewaluno.css"> 
+    <script src="../scripts/scriptalunolist.js"></script>
 </head>
 <body>
 <div class="container" id="container">
