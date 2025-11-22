@@ -87,9 +87,16 @@ $stats = (new Estatisticas())->getVisaoGeral();
 
         <?php if (!empty($stats['plano_mais_caro'])): ?>
         <div class="flex flex-col items-center p-4 rounded-xl transition hover:bg-white/5 bg-gray-900/40 border border-gray-700/50">
-          <img src="assets/money.svg" alt="Plano caro" class="h-8 w-8 mb-2 text-amber-400 filter brightness-0 invert">
-          <p class="text-xl font-bold text-amber-400 text-center leading-tight"><?php echo htmlspecialchars($stats['plano_mais_caro']['plano_pag']); ?></p>
-          <p class="text-gray-400 text-sm mt-1 text-center font-medium">R$ <?php echo number_format($stats['plano_mais_caro']['valor'], 2, ',', '.'); ?></p>
+          <img src="assets/money.svg" alt="Plano caro" class="h-8 w-8 mb-4 text-amber-400 filter brightness-0 invert">
+       <div class="flex flex-row items-center justify-center gap-x-2">
+  <p class="text-xl font-bold text-amber-400 leading-tight">
+    <?php echo htmlspecialchars($stats['plano_mais_caro']['plano_pag']); ?>
+  </p>
+  <h5 class="text-gray-400 text-sm font-medium">
+    R$ <?php echo number_format($stats['plano_mais_caro']['valor'], 2, ',', '.'); ?>
+  </h5>
+</div>
+          <p class="text-gray-400 text-sm mt-1 text-center font-medium">Plano atual mais caro</p>
         </div>
         <?php endif; ?>
 

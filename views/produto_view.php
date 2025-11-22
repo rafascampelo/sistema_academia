@@ -61,6 +61,6 @@ $produtos = $crud->listarTodosComRelacoes(); // Chamada ao DB
         </table>
     <?php endif; ?>
     
-    <p><a href="index.php">Voltar à Tela Principal</a></p>
+    <p><a href="./index.php">Voltar à Tela Principal</a></p>
 </body>
 </html>
