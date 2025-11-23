@@ -10,29 +10,38 @@
     </head>
 <body>
 <div class="container" id="container">
+    <h1>Gerenciar Produtos</h1>
 
-<h1>Gerenciar Produtos</h1>
+    <?php if (!empty($_GET['mensagem'])): ?>
+        <p class="mensagem"><?php echo htmlspecialchars($_GET['mensagem']); ?></p>
+    <?php endif; ?>
 
-<?php if (!empty($_GET['mensagem'])): ?>
-    <p class="mensagem"><?php echo htmlspecialchars($_GET['mensagem']); ?></p>
-<?php endif; ?>
+    <form method="POST" id="cadastro">
+        <input type="hidden" name="cod_prod" value="<?php echo $produto_data['cod_prod'] ?? ''; ?>">
 
-<form method="POST" id="cadastro">
-    <input type="hidden" name="cod_prod" value="<?php echo $produto_data['cod_prod'] ?? ''; ?>">
-    <input type="text" name="nome_prod" placeholder="Nome do Produto" value="<?php echo $produto_data['nome_prod'] ?? ''; ?>" required>
-    <input type="number" name="quantidade" placeholder="Quantidade" id="quantidade" value="<?php echo $produto_data['quant_estoque'] ?? 0; ?>" required>
-    <select name="cod_forn" required>
-        <option value="">Selecione o Fornecedor</option>
-        <?php foreach ($fornecedores as $forn): ?>
-            <option value="<?php echo $forn['cod_forn']; ?>" <?php if(isset($produto_data['cod_forn']) && $produto_data['cod_forn']==$forn['cod_forn']) echo 'selected'; ?>>
-                <?php echo htmlspecialchars($forn['nome_forn']); ?>
-            </option>
-        <?php endforeach; ?>
-    </select>
-    <input type="number" step="0.01" name="preco" placeholder="Preço" id="preco" required value="<?php echo $produto_data['preco'] ?? ''; ?>">
-    <input type="date" name="valid" placeholder="Data Validade" required value="<?php echo $produto_data['valid'] ?? ''; ?>">
-    <button type="submit"><?php echo isset($produto_data) ? 'Atualizar' : 'Cadastrar'; ?></button>
-</form>
+        <input type="text" name="nome_prod" placeholder="Nome do Produto" value="<?php echo $produto_data['nome_prod'] ?? ''; ?>" required>
+        
+        <input type="number" name="quantidade" placeholder="Quantidade em Estoque" id="quantidade" value="<?php echo $produto_data['quant_estoque'] ?? 0; ?>" required>
+
+        <select name="cod_forn" required>
+            <option value="">Selecione o Fornecedor</option>
+            <?php foreach ($fornecedores as $forn): ?>
+                <option value="<?php echo $forn['cod_forn']; ?>" 
+                    <?php if(isset($produto_data['cod_forn']) && $produto_data['cod_forn'] == $forn['cod_forn']) echo 'selected'; ?>>
+                    <?php echo htmlspecialchars($forn['nome_forn']); ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
+
+        <input type="number" step="0.01" name="preco" placeholder="Preço (R$)" id="preco" required value="<?php echo $produto_data['preco'] ?? ''; ?>">
+
+        <label for="valid">Data de Validade</label>
+        <input type="date" name="valid" id="valid" required value="<?php echo $produto_data['valid'] ?? ''; ?>">
+
+        <button type="submit">
+            <?php echo isset($produto_data) ? 'Atualizar' : 'Cadastrar'; ?>
+        </button>
+    </form>
 
 <table>
     <thead>

@@ -29,10 +29,7 @@ $produtos = $crud->listarTodosComRelacoes(); // Chamada ao DB
     <h1>Visualização de Produtos</h1>
     <p>Você está logado como: <strong><?php echo htmlspecialchars($_SESSION['funcao']); ?></strong></p>
 
-    <?php if (empty($produtos)): ?>
-        <p>Nenhum produto cadastrado no momento.</p>
-    <?php else: ?>
-      <table>
+    <table>
     <thead>
         <tr>
             <th>Cód. Prod</th>
@@ -69,10 +66,11 @@ $produtos = $crud->listarTodosComRelacoes(); // Chamada ao DB
     <?php endforeach; ?>
     </tbody>
 </table>
-    <?php endif; ?>
 
-    <p style="text-align:center; margin-top:20px;">
-    <a class="button" href="../index.php" style="cursor:pointer;">Voltar à Tela Principal</a>
+<p style="text-align:center; margin-top:20px;">
+    <a class="button-delete" id="voltar" href="#" style="cursor:pointer;">
+        Voltar à Tela Inicial
+    </a>
 </p>
 </div>
 </body>

@@ -1,209 +1,313 @@
-/* Reset e tipografia */
+/* Reset básico para garantir consistência */
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+.container{
 
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  min-height: 100vh;
-  padding: 20px 0;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  color: #f5f5f5;
-  background: url('../assets/fundo.jpg') no-repeat center center fixed;
-  background-size: cover;
-  overflow-x: hidden;
-}
-
-body::before {
-  content: "";
-  position: fixed;
-  top:0; left:0;
-  width:100%; height:100%;
-  background: rgba(0,0,0,0.7);
-  z-index: -1;
-}
-
-.container {
-  background: rgba(20,20,20,0.92);
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 0 20px rgba(0,0,0,0.5);
-  width: 90%;
-  max-width: 1000px;
-  transform: translateY(50px);
-  opacity: 0;
-  transition: transform 0.6s ease, opacity 0.6s ease;
-}
-
-.container.show {
-  transform: translateY(0);
-  opacity: 1;
-}
-
-.container.exit {
-  transform: translateY(-150%);
-  opacity: 0;
-}
-
-h1 {
-  color: #00aaff;
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-/* Formulário */
-form {
-  margin-bottom: 30px;
-  text-align: center;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-form input, form select {
-  flex: 1 1 250px;
-  margin: 5px;
-  padding: 10px;
-  border-radius: 6px;
-  border: none;
-  min-width: 200px;
-}
-
-form button {
-  background: #007bff;
-  color: white;
-  padding: 12px 20px;
-  border-radius: 6px;
-  border: none;
-  cursor: pointer;
-  margin-top: 10px;
-  transition: 0.3s;
-}
-
-form button:hover { background: #0056b3; }
-
-/* Tabela */
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
-}
-
-th, td {
-  padding: 10px;
-  border-bottom: 1px solid #333;
-  text-align: left;
-}
-
-th { 
-  background: #007bff; 
-  color: white; 
-}
-
-tr:nth-child(even) { background: #222; }
-tr:hover { background: #333; }
-
-/* ======================= */
-/* BOTÃO EDITAR            */
-/* ======================= */
-.button-edit {
-  background: #0915b4ff;
-  color: white;
-  padding: 8px 12px;
-  border-radius: 6px;
-  text-decoration: none;
-  margin-right: 5px;
-  transition: 0.3s;
-}
-.button-edit:hover {
-  background: #0056b3;
-}
-
-/* ======================= */
-/* BOTÃO EXCLUIR           */
-/* ======================= */
-.button-delete {
-  background: #ff4b4b;
-  color: white;
-  padding: 8px 12px;
-  border-radius: 6px;
-  text-decoration: none;
-  transition: 0.3s;
-}
-.button-delete:hover {
-  background: #cc0000;
-}
-
-.mensagem { 
-  text-align: center; 
-  margin-bottom: 15px; 
-  color: #00ff88; 
-}
-
-/* ======================= */
-/* RESPONSIVIDADE          */
-/* ======================= */
-
-/* Telas grandes (1920px) */
-@media (min-width: 1600px) {
-  .container {
-    max-width: 1400px;
-    padding: 40px;
-  }
-  h1 {
-    font-size: 2.5rem;
-  }
-  form input, form select {
-    font-size: 16px;
-  }
-}
-
-/* Tablets e telas médias */
-@media (max-width: 992px) {
-  form {
+    margin-top: 20px;
+    width: 90%;
+    max-width: 1200px;
+    display: flex;
     flex-direction: column;
     align-items: center;
-  }
-  form input, form select {
-    width: 100%;
-    max-width: 500px;
-  }
+    justify-content: center;
+}
+/* Centraliza tudo na tela (vertical e horizontal) e define o fundo preto */
+body {
+    background-color: #121212; /* Base preta */
+    color: #e0e0e0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
 }
 
-/* Celulares */
-@media (max-width: 768px) {
-  table, thead, tbody, th, td, tr {
+/* Estilo do Título */
+h1 {
+    margin-bottom: 20px;
+    color: #ffffff;
+    font-size: 2rem;
+    text-align: center;
+}
+
+/* Estilo da mensagem de feedback (PHP) */
+.mensagem {
+    background-color: #2d3748;
+    color: #90cdf4;
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    border: 1px solid #4299e1;
+    text-align: center;
+    width: 100%;
+    max-width: 400px;
+}
+
+/* Container do Formulário */
+form#cadastro {
+    background-color: #1e1e1e; /* Cinza escuro para destacar do fundo */
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5); /* Sombra suave */
+    width: 100%;
+    max-width: 400px; /* Largura máxima para não esticar demais */
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Espaçamento entre os inputs */
+}
+
+/* Estilo dos Inputs e Select */
+input, select {
+    width: 100%;
+    padding: 12px;
+    background-color: #2d2d2d;
+    border: 1px solid #444;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+/* Efeito de foco nos inputs */
+input:focus, select:focus {
+    outline: none;
+    border-color: #3b82f6; /* Azul ao clicar */
+    background-color: #333;
+}
+
+/* Ajuste para o Label da data */
+label {
+    font-size: 0.9rem;
+    color: #aaa;
+    margin-bottom: -10px; /* Aproxima o label do input */
     display: block;
-  }
+}
 
-  thead {
-    display: none;
-  }
-
-  tbody tr {
-    margin-bottom: 15px;
-    border: 1px solid #333;
-    border-radius: 6px;
-    padding: 10px;
-    background: #222;
-  }
-
-  tbody td {
+/* O Botão Azul */
+button[type="submit"] {
+    background-color: #3b82f6; /* Azul vibrante */
+    color: white;
+    padding: 12px;
     border: none;
-    padding: 8px 0;
-  }
-
-  tbody td:before {
-    content: attr(data-label);
+    border-radius: 5px;
+    font-size: 1rem;
     font-weight: bold;
-    color: #00aaff;
-    display: block;
-    margin-bottom: 4px;
-  }
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.1s;
+    margin-top: 10px;
+}
+
+/* Efeito Hover (passar o mouse) no botão */
+button[type="submit"]:hover {
+    background-color: #2563eb; /* Azul um pouco mais escuro */
+}
+
+button[type="submit"]:active {
+    transform: scale(0.98); /* Leve clique visual */
+}
+
+/* Placeholder cor mais suave */
+::placeholder {
+    color: #777;
+}
+
+/* --- Estilização da Tabela --- */
+
+table {
+    width: 100%;
+    max-width: 1200px; /* Um pouco mais larga que o form para caber os dados */
+    border-collapse: collapse; /* Remove espaços duplos entre bordas */
+    background-color: #1e1e1e; /* Mesmo fundo cinza do formulário */
+    border-radius: 10px;
+    overflow: hidden; /* Garante que os cantos arredondados funcionem no cabeçalho */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    margin-top: 30px; /* Espaço se estiver abaixo do formulário */
+}
+
+/* Cabeçalho da Tabela */
+thead {
+    background-color: #252525; /* Um pouco mais claro que o fundo da tabela */
+}
+
+th {
+    padding: 15px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #3b82f6; /* Texto azul para combinar com o título/tema */
+    text-transform: uppercase; /* Deixa o cabeçalho mais profissional */
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid #333;
+}
+
+/* Células do Corpo */
+td {
+    padding: 14px 15px;
+    border-bottom: 1px solid #333; /* Linha separadora sutil */
+    color: #d1d5db; /* Branco levemente acinzentado para não cansar a vista */
+    font-size: 0.95rem;
+    vertical-align: middle;
+}
+
+/* Efeito Hover na Linha (ajuda a ler tabelas largas) */
+tbody tr:hover {
+    background-color: #2a2a2a;
+    transition: background-color 0.2s;
+}
+
+/* --- Botões de Ação (Editar e Excluir) --- */
+
+/* Centraliza a coluna de ações */
+td:last-child {
+    display: flex;
+    gap: 10px; /* Espaço entre os botões */
+    justify-content: center;
+    align-items: center;
+    min-width: 160px; /* Garante espaço para os dois botões não quebrarem */
+}
+
+/* Estilo base dos botões (link parecendo botão) */
+.button-edit, .button-delete {
+    padding: 8px 16px;
+    border-radius: 6px;
+    text-decoration: none; /* Tira o sublinhado do link */
+    font-size: 0.85rem;
+    font-weight: bold;
+    color: white;
+    transition: background-color 0.3s, transform 0.1s;
+    text-align: center;
+}
+
+/* Botão Editar (Azul - Igual ao Formulário) */
+.button-edit {
+    background-color: #3b82f6;
+}
+
+.button-edit:hover {
+    background-color: #2563eb;
+}
+
+/* Botão Excluir (Vermelho - Como pedido) */
+.button-delete {
+    background-color: #ef4444; /* Vermelho moderno */
+}
+
+.button-delete:hover {
+    background-color: #dc2626; /* Vermelho mais escuro ao passar o mouse */
+}
+
+/* Efeito de clique nos botões da tabela */
+.button-edit:active, .button-delete:active {
+    transform: scale(0.95);
+}
+
+
+/* =========================================
+   MEDIA QUERY: RESPONSIVIDADE (CELULAR)
+   Aplica-se apenas em telas menores que 768px
+   ========================================= */
+@media (max-width: 768px) {
+
+    /* Ajuste do container e corpo */
+    body {
+        padding: 10px; /* Menos borda no celular */
+    }
+
+    .container {
+        width: 100%;
+        margin-top: 10px;
+        align-items: center;
+    }
+
+    /* Ajuste do Formulário no Mobile */
+    form#cadastro {
+        padding: 20px; /* Menos padding interno */
+        max-width: 100%; /* Ocupa a largura total disponível */
+    }
+    
+    h1 {
+        font-size: 1.5rem; /* Título um pouco menor */
+    }
+
+    /* --- TRANSFORMAÇÃO DA TABELA EM CARDS --- */
+    
+    /* Força os elementos da tabela a se comportarem como blocos (divs) */
+    table, thead, tbody, th, td, tr {
+        
+        display: block;
+    }
+
+    /* Esconde o cabeçalho original (Código, Nome, etc) pois vamos recriá-lo em cada card */
+    thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+
+    /* Estilo de cada "Linha" que agora vira um "Cartão" */
+    tr {
+        margin-bottom: 20px;
+        background-color: #1e1e1e;
+        border: 1px solid #333;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        padding: 10px;
+    }
+
+    /* Estilo de cada célula dentro do cartão */
+    td {
+        border: none;
+        border-bottom: 1px solid #2a2a2a; /* Linha fina entre dados */
+        position: relative;
+        padding-left: 40%; /* Espaço para o rótulo à esquerda */
+        text-align: right; /* Texto alinhado à direita */
+        padding-top: 10px;
+        padding-bottom: 10px;
+        display: flex; /* Para alinhar rótulo e valor */
+        justify-content: space-between; /* Rótulo na esq, valor na dir */
+        align-items: center;
+    }
+
+    /* Remove a linha da última célula (Ações) */
+    td:last-child {
+        border-bottom: none;
+        justify-content: center; /* Centraliza os botões */
+        padding-top: 20px;
+        gap: 15px;
+    }
+
+    /* --- MÁGICA CSS: INSERINDO OS TÍTULOS AUTOMATICAMENTE --- */
+    /* Usamos ::before para criar o rótulo da coluna simulada */
+    
+    td::before {
+        font-weight: bold;
+        color: #3b82f6; /* Azul do tema */
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        position: absolute;
+        left: 5px;
+    }
+
+    /* Definindo o texto de cada coluna manualmente via CSS */
+    td:nth-of-type(1)::before { content: "Código"; }
+    td:nth-of-type(2)::before { content: "Nome"; }
+    td:nth-of-type(3)::before { content: "Email"; }
+    td:nth-of-type(4)::before { content: "Telefone"; }
+    td:nth-of-type(5)::before { content: "Plano"; }
+    td:nth-of-type(6)::before { content: "CPF"; }
+    td:nth-of-type(7)::before { content: "Idade"; }
+    td:nth-of-type(8)::before { content: "Matrícula"; }
+    td:nth-of-type(9)::before { content: "Ações"; display: none; } /* Não precisa de rótulo nos botões */
+
+    /* Ajuste dos botões no mobile para ficarem mais fáceis de tocar */
+    .button-edit, .button-delete {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+        align-items: center;
+    }
 }

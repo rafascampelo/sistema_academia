@@ -42,7 +42,7 @@ $planos = [
         </option>
     <?php endforeach; ?>
 </select>
-<p>Data Matrícula</p>
+<label for="Data_matricula">Data Matrícula</label>
         <input type="date" name="Data_matricula" id="Data_matricula" required value="<?php echo $aluno_data['Data_matricula'] ?? ''; ?>">
 
         <button type="submit">

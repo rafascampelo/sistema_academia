@@ -29,44 +29,51 @@ $is_admin = is_adm();
 <head>
     <meta charset="UTF-8">
     <title>Visualização de Alunos (Professor)</title>
-    <link rel="stylesheet" href="../styles/viewaluno.css"> 
+    <link rel="stylesheet" href="../styles/aluno_list.view.css"> 
     <script src="../scripts/scriptalunolist.js" defer></script>
 </head>
 <body>
 <div class="container" id="container">
     <h1>Visualização de Alunos</h1>
     <p class="info">Função Atual: <?php echo htmlspecialchars($funcao); ?></p>
+<table>
+    <thead>
+        <tr>
+            <th>Código</th>
+            <th>Nome</th>
+            <th>Email</th>
+           <th>Telefone</th>
+            <th>Plano</th>
+             <th>CPF</th>
+             <th>Idade</th>
+            <th>Data Matrícula</th>
+        </tr>
+    </thead>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Código</th>
-                <th>Nome</th>
-                <th>Email</th>
-                <th>Plano</th>
-                <th>Telefone</th>
-                <th>Data Matrícula</th>
-            </tr>
-        </thead>
-        <tbody>
-        <?php foreach ($alunos as $aluno): ?>
-            <tr>
-                <td><?php echo $aluno['cod_aluno']; ?></td>
-                <td><?php echo htmlspecialchars($aluno['nome_aluno']); ?></td>
-                <td><?php echo htmlspecialchars($aluno['email']); ?></td>
-                <td><?php echo htmlspecialchars($aluno['plano_pag']); ?></td>
-                <td><?php echo htmlspecialchars($aluno['telefone']); ?></td>
-                <td><?php echo !empty($aluno['Data_matricula']) ? date('d/m/Y', strtotime($aluno['Data_matricula'])) : 'N/A'; ?></td>
-            </tr>
-        <?php endforeach; ?>
-        </tbody>
-    </table>
+    <tbody>
+    <?php foreach ($alunos as $aluno): ?>
+        <tr>
+            <td><?php echo $aluno['cod_aluno']; ?></td>
+            <td><?php echo htmlspecialchars($aluno['nome_aluno']); ?></td>
+            <td><?php echo htmlspecialchars($aluno['email']); ?></td>
+            <td><?php echo htmlspecialchars($aluno['telefone']); ?></td>
+            <td><?php echo htmlspecialchars($aluno['plano_pag']); ?></td>
+            <td><?php echo htmlspecialchars($aluno['cpf']); ?></td>
+            <td><?php echo htmlspecialchars($aluno['idade']); ?></td>
+            <td><?php echo !empty($aluno['Data_matricula']) ? date('d/m/Y', strtotime($aluno['Data_matricula'])) : 'N/A'; ?></td>
+            
+        </tr>
+    <?php endforeach; ?>
+    </tbody>
+</table>
 
-    <p style="text-align:center; margin-top:20px; background-color:#ff4b4b; padding:10px; border-radius:5px;">
-        <a class="button" id="voltar">Voltar à Tela Inicial</a>
-    </p>
+<p style="text-align:center; margin-top:20px;">
+    <a class="button-delete" id="voltar" style="cursor:pointer;">
+        Voltar à Tela Inicial
+    </a>
+</p>
+
 </div>
-
 
 </body>
 </html>
