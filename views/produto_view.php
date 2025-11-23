@@ -22,7 +22,7 @@ $produtos = $crud->listarTodosComRelacoes(); // Chamada ao DB
     <meta charset="UTF-8">
     <title>Visualização de Produtos</title>
     <link rel="stylesheet" href="../styles/produto_list.view.css">
-    <script src="../scripts/scriptProdutoCrud.js" defer></script>
+    <script src="../scripts/scriptproduto_list.view.js" defer></script>
 </head>
 <body>
     <div class="container" id="container" >
@@ -68,7 +68,7 @@ $produtos = $crud->listarTodosComRelacoes(); // Chamada ao DB
 </table>
 
 <p style="text-align:center; margin-top:20px;">
-    <a class="button-delete" id="voltar" href="#" style="cursor:pointer;">
+    <a class="button-delete" id="voltar" style="cursor:pointer;">
         Voltar à Tela Inicial
     </a>
 </p>
