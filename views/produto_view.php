@@ -2,8 +2,8 @@
 // Arquivo: produto_view.php
 session_start();
 
-require_once 'backend/core/auth_functions.php';
-require_once 'backend/class/Produto.class.php';
+require_once '../backend/core/auth_functions.php';
+require_once '../backend/class/Produto.class.php';
 // 1. AUTORIZAÇÃO: Permite acesso se for ADM OU Supervisor!
 // 🚨 O problema pode estar aqui: Confirme que is_supervisor() está funcionando
 if (!is_supervisor()) {
@@ -21,46 +21,59 @@ $produtos = $crud->listarTodosComRelacoes(); // Chamada ao DB
 <head>
     <meta charset="UTF-8">
     <title>Visualização de Produtos</title>
+    <link rel="stylesheet" href="../styles/produto_list.view.css">
+    <script src="../scripts/scriptProdutoCrud.js" defer></script>
 </head>
 <body>
-    <h1>Visualização de Produtos (Professor)</h1>
-    <p>Você está logado como: <?php echo htmlspecialchars($_SESSION['funcao']); ?></p>
+    <div class="container" id="container" >
+    <h1>Visualização de Produtos</h1>
+    <p>Você está logado como: <strong><?php echo htmlspecialchars($_SESSION['funcao']); ?></strong></p>
 
     <?php if (empty($produtos)): ?>
         <p>Nenhum produto cadastrado no momento.</p>
     <?php else: ?>
-        <table border="1">
-            <thead>
-                <tr>
-                    <th>Cód. Prod</th>
-                <th>Nome Prod.</th>
-                <th>Estoque</th>
-                <th>Fornecedor</th>
-                <th>Preço</th>
-                <th>Validade</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($produtos as $produto): ?>
-            <tr>
-                    <td><?php echo $produto['cod_prod']; ?></td>
-                <td><?php echo htmlspecialchars($produto['nome_prod']); ?></td>
-                <td><?php echo $produto['quant_estoque'] ?? 0; ?></td>
-                <td><?php echo htmlspecialchars($produto['nome_forn'] ?? 'N/A'); ?></td>
-                <td>R$ <?php echo number_format($produto['preco'] ?? 0, 2, ',', '.'); ?></td>
-                <td>
-  <?php
-    echo isset($produto['valid']) && !empty($produto['valid'])
-      ? date('d/m/y', strtotime($produto['valid']))
-      : 'N/A';
-  ?>
-</td>
-            </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
+      <table>
+    <thead>
+        <tr>
+            <th>Cód. Prod</th>
+            <th>Nome</th>
+            <th>Estoque</th>
+            <th>Fornecedor</th>
+            <th>Preço</th>
+            <th>Validade</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+    <?php foreach ($produtos as $produto): ?>
+        <tr>
+            <td><?php echo $produto['cod_prod']; ?></td>
+            <td><?php echo htmlspecialchars($produto['nome_prod']); ?></td>
+            <td><?php echo $produto['quant_estoque'] ?? 0; ?></td>
+            <td><?php echo htmlspecialchars($produto['nome_forn'] ?? 'N/A'); ?></td>
+            <td><?php echo number_format($produto['preco'] ?? 0,2,',','.'); ?></td>
+            <td><?php echo !empty($produto['valid']) ? date('d/m/Y', strtotime($produto['valid'])) : 'N/A'; ?></td>
+            <td>
+                <a class="button-edit" 
+                   href="produto_crud.php?action=edit&id=<?php echo $produto['cod_prod']; ?>">
+                   Editar
+                </a>
+
+                <a class="button-delete" 
+                   href="produto_crud.php?action=delete&id=<?php echo $produto['cod_prod']; ?>" 
+                   onclick="return confirm('Deseja realmente excluir?');">
+                   Excluir
+                </a>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+    </tbody>
+</table>
     <?php endif; ?>
-    
-    <p><a href="./index.php">Voltar à Tela Principal</a></p>
+
+    <p style="text-align:center; margin-top:20px;">
+    <a class="button" href="../index.php" style="cursor:pointer;">Voltar à Tela Principal</a>
+</p>
+</div>
 </body>
 </html>

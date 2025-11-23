@@ -49,9 +49,7 @@ $stats = (new Estatisticas())->getVisaoGeral();
           Visualizar Alunos
         </a>
         <a href="views/produto_view.php" class="bg-emerald-600 hover:bg-emerald-700 hover:scale-[1.02] transform transition rounded-xl p-6 text-white font-semibold text-center shadow-lg flex flex-col items-center justify-center gap-2">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h18v18H3V3z" />
-          </svg>
+          <img src="assets/protein-supplement.svg" alt="Gerenciar Produtos" class="h-10 w-10 text-white filter brightness-0 invert">
           Visualizar Produtos
         </a>
       <?php endif; ?>

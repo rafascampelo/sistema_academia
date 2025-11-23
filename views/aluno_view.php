@@ -30,7 +30,7 @@ $is_admin = is_adm();
     <meta charset="UTF-8">
     <title>Visualização de Alunos (Professor)</title>
     <link rel="stylesheet" href="../styles/viewaluno.css"> 
-    <script src="../scripts/scriptalunolist.js"></script>
+    <script src="../scripts/scriptalunolist.js" defer></script>
 </head>
 <body>
 <div class="container" id="container">
