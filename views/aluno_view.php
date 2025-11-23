@@ -62,7 +62,7 @@ $is_admin = is_adm();
         </tbody>
     </table>
 
-    <p style="text-align:center; margin-top:20px;">
+    <p style="text-align:center; margin-top:20px; background-color:#ff4b4b; padding:10px; border-radius:5px;">
         <a class="button" id="voltar">Voltar à Tela Inicial</a>
     </p>
 </div>

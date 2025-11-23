@@ -8,6 +8,7 @@ window.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => (window.location.href = "./index.php"), 600);
   });
 
+  // Função para formatar nome
   function validarNome(nome_aluno) {
     nome_aluno = nome_aluno.trim();
     let partes = nome_aluno.split(/\s+/);
@@ -23,13 +24,47 @@ window.addEventListener("DOMContentLoaded", () => {
     return partes.join(" ");
   }
 
+  // Máscara de telefone
+  const telefoneInput = document.getElementById("telefone");
+  telefoneInput.addEventListener("input", () => {
+    let valor = telefoneInput.value.replace(/\D/g, ""); // só dígitos
+    if (valor.length > 11) valor = valor.slice(0, 11);
+
+    if (valor.length <= 10) {
+      // Formato fixo (XX) XXXX-XXXX
+      telefoneInput.value = valor.replace(
+        /(\d{2})(\d{4})(\d{0,4})/,
+        "($1) $2-$3"
+      );
+    } else {
+      // Formato celular (XX) XXXXX-XXXX
+      telefoneInput.value = valor.replace(
+        /(\d{2})(\d{5})(\d{0,4})/,
+        "($1) $2-$3"
+      );
+    }
+  });
+
+  // Máscara de CPF
+  const cpfInput = document.getElementById("cpf");
+  cpfInput.addEventListener("input", () => {
+    let valor = cpfInput.value.replace(/\D/g, ""); // só dígitos
+    if (valor.length > 11) valor = valor.slice(0, 11);
+
+    cpfInput.value = valor.replace(
+      /(\d{3})(\d{3})(\d{3})(\d{0,2})/,
+      "$1.$2.$3-$4"
+    );
+  });
+
+  // Validações
   function validarTelefone(telefone) {
-    const regexTelefone = /^\(?\d{2}\)?\s?\d{4,5}[- ]?\d{4}$/;
+    const regexTelefone = /^\(\d{2}\)\s?\d{4,5}-\d{4}$/;
     return regexTelefone.test(telefone);
   }
 
   function validarCPF(cpf) {
-    const regexCPF = /^\d{3}\.?\d{3}\.?\d{3}-?\d{2}$/;
+    const regexCPF = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/;
     return regexCPF.test(cpf);
   }
 
@@ -39,8 +74,8 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 
   document.getElementById("cadastro").addEventListener("submit", function (e) {
-    const telefone = document.getElementById("telefone").value;
-    const cpf = document.getElementById("cpf").value;
+    const telefone = telefoneInput.value;
+    const cpf = cpfInput.value;
     const idade = document.getElementById("idade").value;
     const nomeInput = document.getElementById("nome_aluno");
     const nomeFormatado = validarNome(nomeInput.value);
@@ -80,7 +115,9 @@ window.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // Atualiza o valor do input para ir formatado ao PHP
+    // Atualiza os valores para enviar ao PHP (só dígitos)
+    telefoneInput.value = telefone.replace(/\D/g, "");
+    cpfInput.value = cpf.replace(/\D/g, "");
     nomeInput.value = nomeFormatado;
   });
 });

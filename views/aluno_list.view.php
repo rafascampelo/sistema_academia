@@ -13,7 +13,7 @@ $planos = [
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles/aluno.css">
+    <link rel="stylesheet" href="styles/aluno_list.view.css">
     <script src="scripts/scriptAlunoCrud.js" defer></script>
     </head>
 <body>
