@@ -64,7 +64,7 @@
             <td><?php echo htmlspecialchars($produto['nome_forn'] ?? 'N/A'); ?></td>
             <td><?php echo number_format($produto['preco'] ?? 0,2,',','.'); ?></td>
             <td><?php echo !empty($produto['valid']) ? date('d/m/Y', strtotime($produto['valid'])) : 'N/A'; ?></td>
-            <td>
+            <td class="button-acoes">
                 <a class="button-edit" 
                    href="produto_crud.php?action=edit&id=<?php echo $produto['cod_prod']; ?>">
                    Editar

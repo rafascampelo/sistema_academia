@@ -29,7 +29,7 @@ $is_admin = is_adm();
 <head>
     <meta charset="UTF-8">
     <title>Visualização de Alunos (Professor)</title>
-    <link rel="stylesheet" href="../styles/aluno_list.view.css"> 
+    <link rel="stylesheet" href="../styles/produto_list.view.css"> 
     <script src="../scripts/scriptalunolist.js" defer></script>
 </head>
 <body>

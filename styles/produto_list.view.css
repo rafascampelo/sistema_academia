@@ -163,7 +163,7 @@ tbody tr:hover {
 /* --- Botões de Ação (Editar e Excluir) --- */
 
 /* Centraliza a coluna de ações */
-td:last-child {
+.button-acoes {
     display: flex;
     gap: 10px; /* Espaço entre os botões */
     justify-content: center;
@@ -271,6 +271,7 @@ td:last-child {
         display: flex; /* Para alinhar rótulo e valor */
         justify-content: space-between; /* Rótulo na esq, valor na dir */
         align-items: center;
+        
     }
 
     /* Remove a linha da última célula (Ações) */
